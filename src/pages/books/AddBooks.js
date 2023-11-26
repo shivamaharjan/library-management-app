@@ -1,10 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Button, Form } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import CustomInput from '../../components/custominput/CustomInput';
 import AdminLayout from '../../components/layouts/AdminLayout';
+import { addNewBookAction } from '../../redux/book/bookAction';
+import { useDispatch } from 'react-redux';
+
 
 function AddBooks() {
+
+  const dispatch = useDispatch();
     const inputs = [
       {
         label: "Book Title",
@@ -41,10 +46,19 @@ function AddBooks() {
         placeholder: "The book is about....",
       },
     ];
-    const handleOnSubmit = () => {
 
+    const [formData, setFormData] = useState({
+      isAvailable: true,
+    });
+
+    const handleOnSubmit = (e) => {
+      e.preventDefault();
+      console.log("Book Creating", formData);
+      dispatch(addNewBookAction(formData));
     }
-    const handleOnChange =() =>{
+    const handleOnChange =(e) =>{
+      const {name, value} = e.target;
+      setFormData({...formData, [name]: value})
 
     };
   return (
